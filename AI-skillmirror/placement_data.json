@@ -1,0 +1,44 @@
+{
+  "companies": [
+    {
+      "name": "TCS",
+      "roles": ["Software Developer", "Data Analyst"],
+      "min_cgpa": 6.0,
+      "allowed_branches": ["CSE", "IT", "ECE", "ALL"],
+      "graduation_years": [2027, 2028, 2029],
+      "max_backlogs": 0,
+      "skills": ["Java", "Python", "SQL", "DSA"],
+      "criteria_status": "Demo criteria - verify official notice"
+    },
+    {
+      "name": "Infosys",
+      "roles": ["Software Developer", "Data Analyst"],
+      "min_cgpa": 6.0,
+      "allowed_branches": ["CSE", "IT", "ECE", "ALL"],
+      "graduation_years": [2027, 2028, 2029],
+      "max_backlogs": 0,
+      "skills": ["Python", "SQL", "DSA", "OOP"],
+      "criteria_status": "Demo criteria - verify official notice"
+    },
+    {
+      "name": "Accenture",
+      "roles": ["Software Developer", "Data Analyst"],
+      "min_cgpa": 6.0,
+      "allowed_branches": ["CSE", "IT", "ECE", "ALL"],
+      "graduation_years": [2027, 2028, 2029],
+      "max_backlogs": 0,
+      "skills": ["Python", "SQL", "Problem Solving"],
+      "criteria_status": "Demo criteria - verify official notice"
+    },
+    {
+      "name": "Data Science Target",
+      "roles": ["Data Scientist", "Data Analyst", "Machine Learning Engineer"],
+      "min_cgpa": 6.0,
+      "allowed_branches": ["CSE", "IT", "ECE", "ALL"],
+      "graduation_years": [2027, 2028, 2029],
+      "max_backlogs": 0,
+      "skills": ["Python", "SQL", "Statistics", "Pandas", "Machine Learning"],
+      "criteria_status": "Illustrative target profile - not a real company vacancy"
+    }
+  ]
+}

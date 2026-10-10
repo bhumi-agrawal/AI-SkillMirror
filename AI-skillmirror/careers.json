@@ -1,0 +1,44 @@
+{
+    "Data Scientist": {
+        "Python": 15,
+        "SQL": 15,
+        "Statistics": 15,
+        "Pandas": 10,
+        "NumPy": 10,
+        "Machine Learning": 20,
+        "Data Visualization": 10,
+        "Git": 5
+    },
+
+    "Data Analyst": {
+        "Python": 10,
+        "SQL": 20,
+        "Excel": 15,
+        "Statistics": 15,
+        "Pandas": 10,
+        "Power BI": 15,
+        "Data Visualization": 10,
+        "Git": 5
+    },
+
+    "Software Developer": {
+        "Java": 15,
+        "Python": 10,
+        "DSA": 20,
+        "OOP": 15,
+        "DBMS": 15,
+        "Git": 5,
+        "Problem Solving": 20
+    },
+
+    "Machine Learning Engineer": {
+        "Python": 15,
+        "NumPy": 10,
+        "Pandas": 10,
+        "Statistics": 10,
+        "Machine Learning": 25,
+        "Deep Learning": 15,
+        "SQL": 10,
+        "Git": 5
+    }
+}
