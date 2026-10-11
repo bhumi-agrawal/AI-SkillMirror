@@ -711,7 +711,7 @@ Resume excerpt:
             except requests.exceptions.RequestException as error:
                 st.error(f"Could not connect to the AI service: {error}")
             except Exception as error:
-                st.error(f"Could not generate AI advice: {error}")`
+                st.error(f"Could not generate AI advice: {error}")
 
 
 
