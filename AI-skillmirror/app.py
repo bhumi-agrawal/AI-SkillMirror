@@ -632,68 +632,86 @@ if selected_page == "🤖 AI Career Coach":
             key="ai_coach_question",
         )
 
-        if st.button("✨ Generate AI Career Advice", key="generate_ai_advice"):
-            import json as _json
-            from urllib.request import Request, urlopen
-            from urllib.error import URLError, HTTPError
+                if st.button("✨ Generate AI Career Advice", key="generate_ai_advice"):
+            import requests
 
             resume_excerpt = resume_text[:12000]
             prompt = f"""You are a supportive, practical career coach for students.
-    Analyze the resume excerpt and career-matching results below. Do not invent experience,
-    qualifications, or skills that are not present. Clearly separate observations from suggestions.
-    Use these headings:
-    1. Resume strengths
-    2. Improvements to make (include example rewrites only when supported by the resume)
-    3. Top 5 priority skills and why
-    4. A realistic 30-day learning plan (weekly goals and one small project)
-    5. Interview preparation tips
-    6. Three next actions
-    Keep the advice specific, constructive, and concise. Do not guarantee jobs or placements.
+Analyze the resume excerpt and career-matching results below.
+Do not invent experience, qualifications, or skills.
+Clearly separate observations from suggestions.
 
-    Target career: {career}
-    Keyword-matched skills: {', '.join(detected_skills) if detected_skills else 'None detected'}
-    Potential skill gaps: {', '.join(gaps) if gaps else 'None detected by keyword matcher'}
-    Current keyword-based readiness score: {score}%
-    Student's request: {ai_question or 'Give overall resume and career guidance.'}
-    Resume text excerpt (may contain personal data):
-    {resume_excerpt}
-    """
-            payload = {
-                "model": "llama3.2:3b",
-                "messages": [
-                    {"role": "system", "content": "You are an ethical career coach. Protect privacy, avoid unsupported claims, and explain that resume keyword matching is only an estimate."},
-                    {"role": "user", "content": prompt},
-                ],
-                "stream": False,
-            }
-            request = Request(
-                "http://localhost:11434/api/chat",
-                data=_json.dumps(payload).encode("utf-8"),
-                headers={"Content-Type": "application/json"},
-                method="POST",
-            )
+Use these headings:
+1. Resume strengths
+2. Skills to improve
+3. Resume improvement suggestions
+4. Internship and job preparation plan
+5. Recommended next steps
+
+Career coach focus: {ai_question}
+
+Resume excerpt:
+{resume_excerpt}
+"""
+
             try:
-                with st.spinner("Local AI is reviewing your resume and preparing recommendations..."):
-                    with urlopen(request, timeout=300) as response:
-                        result = _json.loads(response.read().decode("utf-8"))
-                advice = result.get("message", {}).get("content", "").strip()
+                api_key = st.secrets["GROQ_API_KEY"]
+
+                payload = {
+                    "model": "llama-3.3-70b-versatile",
+                    "messages": [
+                        {
+                            "role": "system",
+                            "content": "You are an ethical, supportive career coach. Protect privacy and avoid unsupported claims."
+                        },
+                        {
+                            "role": "user",
+                            "content": prompt
+                        }
+                    ],
+                    "temperature": 0.3
+                }
+
+                headers = {
+                    "Authorization": f"Bearer {api_key}",
+                    "Content-Type": "application/json"
+                }
+
+                with st.spinner("AI is reviewing your resume and preparing recommendations..."):
+                    response = requests.post(
+                        "https://api.groq.com/openai/v1/chat/completions",
+                        headers=headers,
+                        json=payload,
+                        timeout=90
+                    )
+
+                response.raise_for_status()
+                result = response.json()
+
+                advice = result["choices"][0]["message"]["content"].strip()
+
                 if advice:
                     st.success("AI career advice generated!")
                     st.markdown(advice)
                     st.caption(
-                        "AI advice can contain mistakes. Verify recommendations and edit your resume honestly. "
-                        "Your readiness score above is still a keyword-based estimate."
+                        "AI advice can contain mistakes. Verify recommendations "
+                        "and edit your resume honestly. Your readiness score is "
+                        "still a keyword-based estimate."
                     )
                 else:
-                    st.error("Local AI had empty error please check.")
-            except (URLError, ConnectionError):
+                    st.error("AI returned an empty response. Please try again.")
+
+            except KeyError:
                 st.error(
-                    "ollame check."
+                    "GROQ_API_KEY is missing. Add it in your Streamlit app Secrets."
                 )
-            except HTTPError as error:
-                st.error(f"Ollama request failed (HTTP {error.code}).")
+            except requests.exceptions.HTTPError as error:
+                st.error(f"Groq API request failed: {error.response.status_code}")
+                st.caption(error.response.text[:1000])
+            except requests.exceptions.RequestException as error:
+                st.error(f"Could not connect to the AI service: {error}")
             except Exception as error:
-                st.error(f"Local AI advice can not generate: {error}")
+                st.error(f"Could not generate AI advice: {error}")`
 
 
 
