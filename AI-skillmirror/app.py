@@ -632,7 +632,7 @@ if selected_page == "🤖 AI Career Coach":
             key="ai_coach_question",
         )
 
-                if st.button("✨ Generate AI Career Advice", key="generate_ai_advice"):
+        if st.button("✨ Generate AI Career Advice", key="generate_ai_advice"):
             import requests
 
             resume_excerpt = resume_text[:12000]
