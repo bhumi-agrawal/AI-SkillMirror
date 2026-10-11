@@ -310,7 +310,7 @@ if uploaded_file is not None:
         resume_text = extract_text_from_pdf(uploaded_file)
         if not resume_text.strip():
             if selected_page == "📄 Resume & Skills":
-                st.warning("PDF se text nahi mila. Text-based PDF resume upload karo.")
+                st.warning("PDF text not found.")
         else:
             detected_skills = find_skills(resume_text, career_data.keys())
             score = calculate_score(career_data, detected_skills)
@@ -324,9 +324,9 @@ if uploaded_file is not None:
 
 if selected_page == "📄 Resume & Skills":
     if uploaded_file is None:
-        st.info("Pehle PDF resume upload karke 'Analyze My Resume' par click karo.")
+        st.info("Please upload resume first' then click.")
     elif not resume_text.strip():
-        st.warning("Resume ka text read nahi ho paaya. Text-based PDF upload karo.")
+        st.warning("text can not read.  please upload Text-based PDF")
     else:
     # ---------------- SCORE ----------------
 
@@ -378,7 +378,7 @@ if selected_page == "📄 Resume & Skills":
 if selected_page == "🧩 Skill Gaps":
     st.header("⚠️ Your Skill Gaps")
     if uploaded_file is None or not resume_text.strip():
-        st.info("Skill gaps dekhne ke liye pehle Resume & Skills mein PDF upload karo.")
+        st.info("For see skill gap kindly upload your resume First")
     else:
         # ---------------- SKILL GAPS ----------------
 
@@ -424,7 +424,7 @@ if selected_page == "🧩 Skill Gaps":
 # ---------------- LEARNING ROADMAP PAGE ----------------
 if selected_page == "🗺️ Learning Roadmap":
     if uploaded_file is None or not resume_text.strip():
-        st.info("Roadmap dekhne ke liye pehle Resume & Skills mein PDF upload karo.")
+        st.info("For see Roadmap upload your Resume first .")
     else:
         st.header("🚀 Smart Learning Roadmap")
 
@@ -685,16 +685,15 @@ if selected_page == "🤖 AI Career Coach":
                         "Your readiness score above is still a keyword-based estimate."
                     )
                 else:
-                    st.error("Local AI ne empty response diya. Ollama model check karke dobara try karo.")
+                    st.error("Local AI had empty error please check.")
             except (URLError, ConnectionError):
                 st.error(
-                    "Ollama se connection nahi ho paaya. Ollama install/open karo, phir terminal mein "
-                    "`ollama run llama3.2:3b` chalao aur app dobara try karo."
+                    "ollame check."
                 )
             except HTTPError as error:
-                st.error(f"Ollama request failed (HTTP {error.code}). Confirm karo ki `llama3.2:3b` model downloaded hai.")
+                st.error(f"Ollama request failed (HTTP {error.code}).")
             except Exception as error:
-                st.error(f"Local AI advice generate nahi ho paayi: {error}")
+                st.error(f"Local AI advice can not generate: {error}")
 
 
 
@@ -723,11 +722,11 @@ if selected_page == "🎯 Placement Dashboard":
         companies = placement_data.get("companies", [])
 
     except FileNotFoundError:
-        st.error("placement_data.json nahi mili. Project folder check karo.")
+        st.error("placement_data.json not found. Project folder check please.")
         st.stop()
 
     except json.JSONDecodeError:
-        st.error("placement_data.json ka JSON format check karo.")
+        st.error("placement_data.json  check format.")
         st.stop()
 
     # Collect student profile
@@ -814,7 +813,7 @@ if selected_page == "🎯 Placement Dashboard":
     ]
 
     if not matching_role_companies:
-        st.info("Is role ke liye abhi company profiles configured nahi hain.")
+        st.info("role not found.")
 
     for company in matching_role_companies:
         reasons = []
